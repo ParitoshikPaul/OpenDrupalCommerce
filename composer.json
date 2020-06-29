@@ -22,6 +22,7 @@
         "drupal/core-project-message": "^8.8",
         "drupal/core-recommended": "^8.8",
         "drupal/openapi_ui_swagger": "^1.0@RC",
+        "drupal/otp_login": "^2.1",
         "drupal/restui": "^1.18"
     },
     "conflict": {
