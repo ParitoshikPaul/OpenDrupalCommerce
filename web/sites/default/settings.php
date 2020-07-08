@@ -9,5 +9,5 @@ $databases['default']['default'] = array (
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver' => 'mysql',
 );
-$settings['hash_salt'] = 'JNzHg1foc7KKWcCFbXIZzHXgQvj_8JA2HRgrcqBU4mwRmjcGlhgERrPrp3jEl9hCoIpHbRzSFg';
-$settings['config_sync_directory'] = 'sites/default/files/config_BStaa33Asu5XIYIZlr5BeEKeutS3KHG4z_xplpljj8LwuRKUZXVP5GUYR9LEFOxceusO6LYWJA/sync';
+$settings['hash_salt'] = 'wqWGgQrkDZmBcp81k95ms4zsDER2Dyn9D0INQ1KeWnNRYHDwC2pecdgp4CXSe-ws-G-8WnF8sw';
+$settings['config_sync_directory'] = 'sites/default/files/config_GUqW0Yo9G_IBPVwQTXi423O9uvcqGRruqld8AKxLM2ozaYA9UyS2BbkCnjEe6zbblHu5JPMpVQ/sync';

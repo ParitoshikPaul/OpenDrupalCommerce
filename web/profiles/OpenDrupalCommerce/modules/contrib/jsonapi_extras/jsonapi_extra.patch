@@ -1,0 +1,110 @@
+diff --git a/jsonapi_extras.links.menu.yml b/jsonapi_extras.links.menu.yml
+deleted file mode 100644
+index d3a6db0..0000000
+--- a/jsonapi_extras.links.menu.yml
++++ /dev/null
+@@ -1,5 +0,0 @@
+-entity.jsonapi_resource_config.collection:
+-  title: JSON:API Overwrites
+-  description: 'Overwrite JSON:API resources.'
+-  parent: system.admin_config_services
+-  route_name: entity.jsonapi_resource_config.collection
+diff --git a/jsonapi_extras.links.task.yml b/jsonapi_extras.links.task.yml
+index 1068e29..6f5567e 100755
+--- a/jsonapi_extras.links.task.yml
++++ b/jsonapi_extras.links.task.yml
+@@ -1,9 +1,24 @@
+-jsonapi_extras.resources:
+-  title: 'Resources'
+-  route_name: entity.jsonapi_resource_config.collection
+-  base_route: entity.jsonapi_resource_config.collection
+-
+-jsonapi_extras.settings:
++# @todo this one should be defined in Drupal core in principle.
++jsonapi.settings:
++  route_name: jsonapi.settings
++  base_route: jsonapi.settings
+   title: 'Settings'
++  parent: system.admin_config_services
++
++# Define a "JSON:API Extras tab" to contain all of its subtabs.
++jsonapi.settings.extras:
+   route_name: jsonapi_extras.settings
++  base_route: jsonapi.settings
++  title: 'JSON:API Extras'
++
++# The two subtabs.
++jsonapi.settings.extras.settings:
++  route_name: jsonapi_extras.settings
++  base_route: jsonapi_extras.settings
++  title: 'Settings'
++  parent_id: jsonapi.settings.extras
++jsonapi.settings.extras.resources:
++  route_name: entity.jsonapi_resource_config.collection
+   base_route: entity.jsonapi_resource_config.collection
++  title: 'Resource overrides'
++  parent_id: jsonapi.settings.extras
+diff --git a/jsonapi_extras.module b/jsonapi_extras.module
+index 2c3cfd8..f656b77 100644
+--- a/jsonapi_extras.module
++++ b/jsonapi_extras.module
+@@ -14,8 +14,8 @@ function jsonapi_extras_help($route_name, RouteMatchInterface $route_match) {
+   switch ($route_name) {
+     case 'entity.jsonapi_resource_config.collection':
+       $output = '';
+-      $output .= '<p>' . t('The following table shows the list of JSON:API resources available.') . '</p>';
+-      $output .= '<p>' . t("Use the overwrite operation to overwrite a resource's configuration. You can revert back to the default configuration using the revert operation.") . '</p>';
++      $output .= '<p>' . t('The following table shows the list of JSON:API resource types available.') . '</p>';
++      $output .= '<p>' . t("Use the overwrite operation to overwrite a resource type's configuration. You can revert back to the default configuration using the revert operation.") . '</p>';
+       return $output;
+   }
+ }
+diff --git a/jsonapi_extras.routing.yml b/jsonapi_extras.routing.yml
+index 50fbcb5..bd4b24c 100644
+--- a/jsonapi_extras.routing.yml
++++ b/jsonapi_extras.routing.yml
+@@ -1,7 +1,7 @@
+ jsonapi_extras.settings:
+-  path: '/admin/config/services/jsonapi/settings'
++  path: '/admin/config/services/jsonapi/extras'
+   defaults:
+     _form: '\Drupal\jsonapi_extras\Form\JsonapiExtrasSettingsForm'
+-    _title: 'Settings'
++    _title: 'JSON:API Extras'
+   requirements:
+     _permission: 'administer site configuration'
+diff --git a/src/Entity/JsonapiResourceConfig.php b/src/Entity/JsonapiResourceConfig.php
+index a5a615c..67748ec 100644
+--- a/src/Entity/JsonapiResourceConfig.php
++++ b/src/Entity/JsonapiResourceConfig.php
+@@ -11,7 +11,14 @@ use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+  *
+  * @ConfigEntityType(
+  *   id = "jsonapi_resource_config",
+- *   label = @Translation("JSON:API Resource Config"),
++ *   label = @Translation("JSON:API Resource override"),
++ *   label_collection = @Translation("JSON:API Resource overrides"),
++ *   label_singular = @Translation("JSON:API resource override"),
++ *   label_plural = @Translation("JSON:API resource overrides"),
++ *   label_count = @PluralTranslation(
++ *     singular = "@count JSON:API resource override",
++ *     plural = "@count JSON:API resource overrides",
++ *   ),
+  *   handlers = {
+  *     "list_builder" = "Drupal\jsonapi_extras\JsonapiResourceConfigListBuilder",
+  *     "form" = {
+@@ -32,10 +39,10 @@ use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+  *     "uuid" = "uuid"
+  *   },
+  *   links = {
+- *     "add-form" = "/admin/config/services/jsonapi/add/{entity_type_id}/{bundle}",
+- *     "edit-form" = "/admin/config/services/jsonapi/{jsonapi_resource_config}/edit",
+- *     "delete-form" = "/admin/config/services/jsonapi/{jsonapi_resource_config}/delete",
+- *     "collection" = "/admin/config/services/jsonapi"
++ *     "add-form" = "/admin/config/services/jsonapi/add/resource_types/{entity_type_id}/{bundle}",
++ *     "edit-form" = "/admin/config/services/jsonapi/resource_types/{jsonapi_resource_config}/edit",
++ *     "delete-form" = "/admin/config/services/jsonapi/resource_types/{jsonapi_resource_config}/delete",
++ *     "collection" = "/admin/config/services/jsonapi/resource_types"
+  *   }
+  * )
+  */

@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "composer/installers": "^1.2",
+        "composer/installers": "^1.9",
         "drupal/adminimal_admin_toolbar": "^1.11",
         "drupal/adminimal_theme": "^1.5",
         "drupal/core-composer-scaffold": "^8.8",
@@ -23,7 +23,9 @@
         "drupal/core-recommended": "^8.8",
         "drupal/openapi_ui_swagger": "^1.0@RC",
         "drupal/otp_login": "^2.1",
-        "drupal/restui": "^1.18"
+        "drupal/restui": "^1.18",
+        "drush/drush": "^9.7",
+        "mnsami/composer-custom-directory-installer": "^1.1"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -44,6 +46,7 @@
                 "type:drupal-core"
             ],
             "web/libraries/{$name}": [
+                "swagger-api/swagger-ui",
                 "type:drupal-library"
             ],
             "web/modules/contrib/{$name}": [

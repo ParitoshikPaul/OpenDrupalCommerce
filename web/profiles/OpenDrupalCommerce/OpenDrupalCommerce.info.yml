@@ -61,13 +61,13 @@ dependencies:
   - admin_toolbar
   - adminimal_admin_toolbar
   - restui
+  - openapi
   - openapi_ui_swagger
   - dynamic_entity_reference
-  - smsframework
+  - sms
   - otp_login
   - jsonapi
   - menu_ui
-  - commerce
 # List any themes that should be installed as part of the profile installation.
 # Note that this will not set any theme as the default theme.
 themes:
